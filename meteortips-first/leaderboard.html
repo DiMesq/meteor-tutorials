@@ -3,14 +3,23 @@
 </head>
 <body>
     <h1>Leaderboard</h1>
-    {{> leaderboard}}
+    <p>{{> loginButtons}}</p>
+    {{#if currentUser}}
+      {{> addPlayer}}
+      {{> leaderboard}}
+    {{else}}
+      {{> indexTemplate}}
+    {{/if}}
 </body>
 
+<template name='indexTemplate'>
+  <h1>Welcome to LeaderBoard App</h1>
+</template>
 <template name="leaderboard">
   {{#if selectedPlayer}}
     <h2>Player:</h2><div id="currentPlayer">{{selectedPlayer.name}}</div>
-    <button class="increment">Give 5 points</button>
-    <button class="decrement">Take 5 points</button>
+    <button class="modify-score" data-score="5">Give 5 points</button>
+    <button class="modify-score" data-score="-5">Take 5 points</button>
   {{/if}}
   <ol id="players_table">
     {{#each player}}
@@ -20,5 +29,12 @@
 </template>
 
 <template name="playerDisplay">
-  <li class="player {{selectedClass}}">{{name}}: {{score}}</li>
+  <li class="player {{selectedClass}}">{{name}}: {{score}}<button class="delete-player">Delete</button></li>
+</template>
+
+<template name="addPlayer">
+  <hr>
+  <form class="add-player">
+    <h3>Add player: </h3><input type="text" name="name" placeholder="name">
+  </form>
 </template>
